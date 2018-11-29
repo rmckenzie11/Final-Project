@@ -1,0 +1,70 @@
+---
+title: "nyc_taxi"
+author: "Robert McKenzie"
+date: "November 27, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE, cache = TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(data.table)
+library(lubridate)
+library(fs)
+
+
+names1_18 <- dir_ls("cab1_2018")
+
+cab_data18 <- map_dfr(names1_18, fread, .id = "source")
+
+cab_data18 <- cab_data1_18[sample(10000000), ]
+
+tips <- cab_data18 %>%
+  select("V3", "V4", V5, V10, V14, "V17")
+
+tips <- tips %>%
+  separate(V3, into = c("date", "time"), sep = " ") %>%
+  mutate(date = ymd(date),
+         time = hms(time)) %>%
+  rename(time = "time", "num_pass" = V4, "dist" = V5, "payment_type" = V10, "tip" = V14, "total" = V17) %>%
+  mutate(tip_per = tip / total) 
+
+mean_tip_per <- tips %>%
+  na.omit(tip_per) %>%
+  summarize(mean(tip_per)) 
+
+mean_tip <- tips %>%
+  summarize(mean(tip))
+
+cash_tip_per <- tips %>%
+  na.omit(tip_per) %>%
+  filter(payment_type == "2") %>%
+  summarize(mean(tip_per)) 
+
+cash_tip <- tips %>%
+  na.omit(tip_per) %>%
+  filter(payment_type == "2") %>%
+  summarize(mean(tip)) 
+
+
+card_tip_per <- tips %>%
+  na.omit(tip_per) %>%
+  filter(payment_type == "1") %>%
+  summarize(mean(tip_per))
+
+card_tip <- tips %>%
+  na.omit(tip_per) %>%
+  filter(payment_type == "1") %>%
+  summarize(mean(tip)) 
+
+
+pass_model <- lm(formula = V14 ~ V4, data = cab_data18)
+
+dist_model <- lm(tip_per ~ dist, tips)
+
+summary(pass_model)
+summary(dist_model)
+
+```
+
+The average tip of a NYC cab ride in the first three months of 2018 was `r mean_tip$1`, which was `r mean_tip_per$1` % of the total fare.
