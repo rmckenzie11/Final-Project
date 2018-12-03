@@ -90,20 +90,20 @@ labels <- tiles2$zone
 pickup <- cab_data18 %>%
   dplyr::select(V2, V3, V8, V9) %>%
   complete(V8 = 1:263) %>%
-  count(V8) %>%
-  mutate(n = n - 1)
-  
+  count(V8)
 
-zone_count <- pickup$n
+zone_count <- log(pickup$n, base = 50)
 
 leaflet(tiles2) %>% 
   addTiles() %>% 
-  addPolygons(color = "black", fillOpacity = 0.1, label = labels, popup = zone_count) 
+  addPolygons(fillOpacity = 0.75, weight = 3, label = labels, color = ~pal(zone_count),
+              highlightOptions = highlightOptions(color = "white", weight = 5, bringToFront = TRUE))
 
+tiles2@data <- tiles2@data %>%
+  mutate(count = zone_count)
 
-tiles2@data <- data.frame(matrix(unlist(tiles2$data), nrow = 263, byrow = T), stringsAsFactors = FALSE)
-
-tiles2@data %>%
-  mutate(zone_count = zone_count)
+pal <- colorNumeric(
+  palette = "Blues",
+  domain = (tiles2$count))
 ```
 
