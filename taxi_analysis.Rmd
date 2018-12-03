@@ -11,13 +11,15 @@ library(tidyverse)
 library(data.table)
 library(lubridate)
 library(fs)
+library(rgdal)
 
+names_18 <- dir_ls("cab_2018")
 
-names1_18 <- dir_ls("cab1_2018")
+cab_data18 <- map_dfr(names_18, fread, .id = "source")
 
-cab_data18 <- map_dfr(names1_18, fread, .id = "source")
+cab_data18 <- cab_data18[sample(10000000), ]
 
-cab_data18 <- cab_data1_18[sample(10000000), ]
+write_rds(cab_data18, "taxi_data_jan-mar")
 
 tips <- cab_data18 %>%
   select("V3", "V4", V5, V10, V14, "V17")
@@ -68,3 +70,40 @@ summary(dist_model)
 ```
 
 The average tip of a NYC cab ride in the first three months of 2018 was `r mean_tip$1`, which was `r mean_tip_per$1` % of the total fare.
+
+
+
+```{r}
+
+library(leaflet)
+library(raster)
+library(rgeos)
+
+taxi_zone_lookup <- read_csv("taxi _zone_lookup.csv")
+tiles <- readOGR("taxi_zones", "taxi_zones")
+
+projection(tiles) = "+init=epsg:2263"
+tiles2 = spTransform(tiles, "+init=epsg:4326")
+
+labels <- tiles2$zone
+
+pickup <- cab_data18 %>%
+  dplyr::select(V2, V3, V8, V9) %>%
+  complete(V8 = 1:263) %>%
+  count(V8) %>%
+  mutate(n = n - 1)
+  
+
+zone_count <- pickup$n
+
+leaflet(tiles2) %>% 
+  addTiles() %>% 
+  addPolygons(color = "black", fillOpacity = 0.1, label = labels, popup = zone_count) 
+
+
+tiles2@data <- data.frame(matrix(unlist(tiles2$data), nrow = 263, byrow = T), stringsAsFactors = FALSE)
+
+tiles2@data %>%
+  mutate(zone_count = zone_count)
+```
+
