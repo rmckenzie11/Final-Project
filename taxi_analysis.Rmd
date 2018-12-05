@@ -17,7 +17,7 @@ names_18 <- dir_ls("cab_2018")
 
 cab_data18 <- map_dfr(names_18, fread, .id = "source")
 
-cab_data18 <- cab_data18[sample(10000000), ]
+cab_data18 <- cab_data18[sample(100000000), ]
 
 write_rds(cab_data18, "taxi_data_jan-mar")
 
