@@ -22,5 +22,12 @@ significant. However, groups of 6 and 7 tip substantially better than smaller gr
 be to conclude that limo drivers get better tips. Groups of 2 also tipped better than the average which, totally speculative,
 might be a factor of people on dates.
   
+## Shiny App
+
+<html> https://robert-mckenzie.shinyapps.io/Taxi_Commission_App/ </html>
+
+## Note
+
+The app has to work with a lot of data and may take some time to load the maps. With enough time, everything will load.
 
 
