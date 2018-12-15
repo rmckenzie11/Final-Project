@@ -8,7 +8,7 @@ Analysis and visualization of NYC taxi commission trip record data from January 
 
 NYC Taxi and Limousine Commission Trip Records can be found at <html>http://www.nyc.gov/html/tlc/html/about/trip_record_data.shtml</html>.
 <p>
-A data dictionary can be found at <html> http://www.nyc.gov/html/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf>Link</html>.
+A data dictionary can be found at <html> http://www.nyc.gov/html/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf</html>.
   
 ### Summary
 
