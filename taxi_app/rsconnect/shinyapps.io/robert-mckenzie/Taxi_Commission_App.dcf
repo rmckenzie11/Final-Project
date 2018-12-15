@@ -1,0 +1,12 @@
+name: Taxi_Commission_App
+title: Taxi_Commission_App
+username:
+account: robert-mckenzie
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 604504
+bundleId: 1764578
+url: https://robert-mckenzie.shinyapps.io/Taxi_Commission_App/
+when: 1544839014.82101
+asMultiple: FALSE
+asStatic: FALSE

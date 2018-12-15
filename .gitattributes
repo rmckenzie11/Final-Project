@@ -1,3 +1,4 @@
 "yellow_tripdata_2018-01.csv"
 "yellow_tripdata_2018-02.csv"
 "yellow_tripdata_2018-03.csv" filter=lfs diff=lfs merge=lfs -text
+taxi_data filter=lfs diff=lfs merge=lfs -text

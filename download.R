@@ -31,6 +31,11 @@ d <- file.path("C:\\Users\\Robert\\Desktop\\Gov 1005\\test\\data", c("yellow_tri
 f2 <- file.path("https://canvas.harvard.edu/courses/45146/files", c(""))
 
 
+
+style_file(file, style = tidyverse_style, strict = TRUE)
+file <- file.path("taxi_app\\app.r")
+
+
 cab_data18 %>%
   filter(! V9 == c("138", "132", "1")) %>%
   filter(! V8 == c("138", "132", "1")) %>%
